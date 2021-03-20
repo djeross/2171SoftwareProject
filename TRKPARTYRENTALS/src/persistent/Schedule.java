@@ -3,7 +3,6 @@ package persistent;
 //import java.sql.Connection;
 import java.util.ArrayList;
 
-import database.TrkDatabaseConnect;
 
 public class Schedule {
 	private String eventid;
@@ -11,10 +10,10 @@ public class Schedule {
 	private String date;
 	private String s_time;
 	private String e_time;
-	private Resource resource;
-	public ArrayList<String[]> equipment_list = new ArrayList<String[]>();
+	//private ItemRequest IRQ;
+	public ArrayList<ItemRequest> equipment_list = new ArrayList<ItemRequest>();
 
-	public Schedule(String eventid, String location, String date, String s_time, String e_time,ArrayList<String[]> equipment_list) {
+	public Schedule(String eventid, String location, String date, String s_time, String e_time,ArrayList<ItemRequest> equipment_list) {
 		this.eventid = eventid;
 		this.location = location;
 		this.date = date;
@@ -27,7 +26,7 @@ public class Schedule {
 		return location;
 	}
 
-	public void setLocation(String location) {
+	public void updateLocation(String location) {
 		this.location = location;
 	}
 
@@ -35,7 +34,7 @@ public class Schedule {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void updateDate(String date) {
 		this.date = date;
 	}
 
@@ -43,8 +42,16 @@ public class Schedule {
 		return s_time;
 	}
 
-	public void setS_time(String s_time) {
+	public void updateStartTime(String s_time) {
 		this.s_time = s_time;
+	}
+
+	public ArrayList<ItemRequest> getEquipment_list() {
+		return equipment_list;
+	}
+
+	public void setEquipment_list(ArrayList<ItemRequest> equipment_list) {
+		this.equipment_list = equipment_list;
 	}
 
 	public String getE_time() {
@@ -55,21 +62,12 @@ public class Schedule {
 		this.e_time = e_time;
 	}
 
-	public Resource getResource() {
-		return resource;
-	}
-
-	public void setResource(Resource resource) {
-		this.resource = resource;
-	}
-
 	public String getEventid() {
 		return eventid;
 	}
+	
+	
 
-	public void setEventid(String eventid) {
-		this.eventid = eventid;
-	}
 
 
 }

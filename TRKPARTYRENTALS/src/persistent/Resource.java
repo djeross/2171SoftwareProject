@@ -1,25 +1,21 @@
 package persistent;
 
+import java.util.Comparator;
 
-public class Resource {
+public class Resource implements Comparable<Resource>,Comparator<Resource>{
 	private String Ename;
 	private String ID;
 	private int T_Qty;
 	private int R_Qty;
 
 	
-	public Resource(String iD,String ename, int t_Qty) {
+	public Resource(String iD,String ename, int t_Qty,int r_Qty) {
 		this.Ename = ename;
 		this.ID = iD;
 		this.T_Qty = t_Qty;
 		this.R_Qty = t_Qty;
 	}
 	
-	public Resource(String iD, int t_Qty, int r_Qty) {
-		this.ID = iD;
-		this.R_Qty = r_Qty;
-	}
-
 	public String getEname() {
 		return Ename;
 	}
@@ -46,6 +42,16 @@ public class Resource {
 
 	public void setR_Qty(int r_Qty) {
 		this.R_Qty = r_Qty;
+	}
+
+	@Override
+	public int compareTo(Resource resource) {
+		return this.getID().compareTo(resource.getID());
+	}
+
+	@Override
+	public int compare(Resource res1, Resource res2 ) {
+		return res1.getID().compareTo(res2.getID());
 	}
 
 	

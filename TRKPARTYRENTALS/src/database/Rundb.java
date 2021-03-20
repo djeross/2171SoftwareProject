@@ -1,9 +1,9 @@
 package database;
-import persistent.*;
+//import persistent.*;
 public class Rundb {
 
 	public static void main(String[] args) {
-		TrkDatabaseConnect trkconnect = new TrkDatabaseConnect();
+		//TrkDatabaseConnect trkconnect = new TrkDatabaseConnect();
 		//trkconnect.getData();
 		
 		//trkconnect.AddUser("Maria", "Mckenzie", "marmck", "cavehill", "developer");
@@ -16,7 +16,7 @@ public class Rundb {
 		//trkconnect.View_Equipment_Info("Stripper Pole");
 		//trkconnect.remove_Equipment("Stripper Pole");
 		//trkconnect.addEvent("E512", "Cherry Garden", "8000", "2045");
-		Resource xxx=new Resource("chX1024", "chair",1);
+		//Resource xxx=new Resource("chX1024", "chair",1);
 		//trkconnect.Schedule_Equipment("E1024", "Cherry Garden", "2020-12-25", "12:22","23:00",xxx.getID(),2);
 		//trkconnect.View_Schedule("spX0032");
 		//trkconnect.Schedule_Equipment("E4096", "Olympic Garden", "2020-12-30", "08:22","17:50",xxx.getID(),20);

@@ -1,33 +1,41 @@
 package business;
 
 import java.util.ArrayList;
-import DBManager.DatabaseFacade;
 
 
 public class TrkAPP {
-	DatabaseFacade dbfacade;
+	EquipmentManager equipmentmanager;
+	ScheduleManager schedulemanager;
+	ReportManager reportmanager;
+	ArrayList<String> list_of_resource_ids;
+	
 	public TrkAPP(){
-		this.dbfacade = new DatabaseFacade();
+		this.reportmanager=new ReportManager(); 
+		this.equipmentmanager=new EquipmentManager();
+		this.schedulemanager=new ScheduleManager();
+		this.list_of_resource_ids=loadIDs();
 	}
 	
 	
-	
-	public DatabaseFacade getDbfacade() {
-		return dbfacade;
+	public ArrayList<String> loadIDs(){
+		return equipmentmanager.getIdList();
 	}
 
+	
 
 
 	/**
 	 * Schedule an equipment for an event.
 	 * @param schedule schedule object from which the attribute will be used to update database. 
 	 */
-	public String equipmentScheduler(String eventid, String location, String date, String s_time, String e_time, ArrayList<String[]> list){
-		System.out.println(eventid+" "+location+" "+date+s_time+" "+e_time+" "+list);
-		return this.getDbfacade().Schedule_Equipment(eventid, location, date, s_time, e_time, list);
+	public String callScheduleEquipment(String eventid, String location, String date, String s_time, String e_time, ArrayList<String[]> list){
+		return schedulemanager.scheduleEquipment(eventid, location, date, s_time, e_time, list);
 	}
 			
 
 	
 		
 }
+
+	
+	
