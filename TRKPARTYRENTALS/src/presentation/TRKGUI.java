@@ -894,7 +894,7 @@ public class TRKGUI {
 			}
 		});
 		
-		dBack.addActionListener(new ActionListener() {
+		/*dBack.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				OwnerMenu.show();
@@ -914,7 +914,7 @@ public class TRKGUI {
 				dtextArea.setText("");
 				
 			}
-		});
+		});*/
 		d4.setLayout(gl_d4);
 		
 		/**
@@ -2377,6 +2377,29 @@ public class TRKGUI {
 				else {
 					JOptionPane.showMessageDialog(null,"Please ensure that scheduling details are filled in.","System Warning",JOptionPane.WARNING_MESSAGE);
 				}
+			}
+		});
+		
+		/**
+		 * Delete panel button
+		 */
+		dBack.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent arg0) {
+				OwnerMenu.show();
+				options_panel2.hide();
+				login_panel.hide();	
+				addEqu_panel.hide();
+				modEqu_panel.hide();
+				delEqu_panel.hide();
+				schedule_panel.hide();
+				modify_schedule_panel.hide();
+				search_panel.hide();
+				view_schedule_panel.hide();
+				schedule_panel_1.hide();
+				view_schedule_panel_1.hide();
+				search_panel_1.hide();
+				
 			}
 		});
 		                                           	
