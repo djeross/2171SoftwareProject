@@ -1,6 +1,9 @@
 package presentation;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.EventQueue;
+
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -617,13 +620,13 @@ public class TRKGUI {
 					
 					app.callAddEquipment(id, equipName, equipQty, equipQty);
 					
-					while (model.getRowCount() > 0) {
-			             model.removeRow(0);
-			         }
-					
-					JOptionPane.showMessageDialog(null,"Equipment was successfully scheduled.","Success",JOptionPane.INFORMATION_MESSAGE);
-					
-		        }		
+		        }	
+		        
+		        JOptionPane.showMessageDialog(null,"Equipment was successfully added.","Success",JOptionPane.INFORMATION_MESSAGE);
+		        
+		        while (model.getRowCount() > 0) {
+		             model.removeRow(0);
+		         }
 						
 			}
 		});
@@ -820,6 +823,76 @@ public class TRKGUI {
 		JButton searchByIDBtn = new JButton("Search by ID");
 		searchByIDBtn.setBounds(29, 113, 125, 23);
 		d5.add(searchByIDBtn);
+		
+
+		DefaultTableModel model = (DefaultTableModel) dInventoryTable.getModel();
+		
+		
+		ResultSet allEquipment = app.callGetAllEquipment();
+		
+		while (true) {
+			
+			try {
+				if (allEquipment.next()) {
+					model.addRow(new Object[] {allEquipment.getString("EquipmentID"), allEquipment.getString("EquipmentName")});
+				} else {
+					break;
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		}
+		
+		dDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				DefaultTableModel model = (DefaultTableModel) dInventoryTable.getModel();
+				
+				int column = 0;
+				int row = dInventoryTable.getSelectedRow();
+				String value = dInventoryTable.getModel().getValueAt(row, column).toString();
+				
+				System.out.println(value);
+				
+				int numRows = dInventoryTable.getSelectedRows().length;
+				for(int i=0; i<numRows ; i++ ) {
+					
+				    model.removeRow(dInventoryTable.getSelectedRow());
+				}
+				
+				app.callDeleteEquipment(value);
+				
+			}
+		});
+		
+		aSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				while (model.getRowCount() > 0) {
+		             model.removeRow(0);
+		         }
+				
+				ResultSet allEquipment = app.callGetAllEquipment();
+				
+				while (true) {
+					
+					try {
+						if (allEquipment.next()) {
+							model.addRow(new Object[] {allEquipment.getString("EquipmentID"), allEquipment.getString("EquipmentName")});
+						} else {
+							break;
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
+						
+			}
+		});
 		
 		dBack.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")

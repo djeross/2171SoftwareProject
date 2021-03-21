@@ -1,5 +1,6 @@
 package business;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 
@@ -35,8 +36,14 @@ public class TrkAPP {
 	public void callAddEquipment(String equip_id, String equip_name, int t_qty, int r_qty){
 		equipmentmanager.addEquipment(equip_id, equip_name, t_qty, r_qty);
 	}
+	
+	public void callDeleteEquipment(String equip_id){
+		equipmentmanager.deleteEquipment(equip_id);
+	}
 			
-
+	public ResultSet callGetAllEquipment() {
+		return equipmentmanager.getAllEquipment();
+	}
 	
 		
 }

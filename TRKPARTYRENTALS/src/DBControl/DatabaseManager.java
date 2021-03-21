@@ -170,6 +170,38 @@ public class DatabaseManager{
 			return -1;
 		}
 	}
+	
+	public int deleteEquipment(String equip_id){
+		try {
+			TrkDatabaseConnect trkconn=this.getTrkconnect();
+			String query="DELETE FROM resource WHERE EquipmentID='" + equip_id + "'";
+			
+			PreparedStatement statement =trkconn.getDbconn().prepareStatement(query);
+			
+			return statement.executeUpdate();
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return -1;
+		}
+	}
+	
+	public ResultSet getAllEquipment(){
+		try {
+			TrkDatabaseConnect trkconn=this.getTrkconnect();
+			
+			String query = ("SELECT * FROM resource;");
+			
+			PreparedStatement statement =trkconn.getDbconn().prepareStatement(query);
+			
+			ResultSet rs = statement.executeQuery(query);
+			
+			return rs;
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return null;
+		}
+	}
 
 	
 }

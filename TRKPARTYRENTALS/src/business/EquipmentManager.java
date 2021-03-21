@@ -2,6 +2,7 @@ package business;
 
 import java.util.ArrayList;
 import persistent.Resource;
+import java.sql.ResultSet;
 
 import DBControl.DatabaseManager;
 
@@ -28,6 +29,15 @@ public class EquipmentManager {
 		
 	}
 	
+	public void deleteEquipment(String equip_id){
+		
+		dbmanager.deleteEquipment(equip_id);
+		
+	}
+	
+	public ResultSet getAllEquipment() {
+		return dbmanager.getAllEquipment();
+	}
 	
 
 }
