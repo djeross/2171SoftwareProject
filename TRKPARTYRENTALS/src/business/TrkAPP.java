@@ -31,6 +31,10 @@ public class TrkAPP {
 	public String callScheduleEquipment(String eventid, String location, String date, String s_time, String e_time, ArrayList<String[]> list){
 		return schedulemanager.scheduleEquipment(eventid, location, date, s_time, e_time, list);
 	}
+	
+	public void callAddEquipment(String equip_id, String equip_name, int t_qty, int r_qty){
+		equipmentmanager.addEquipment(equip_id, equip_name, t_qty, r_qty);
+	}
 			
 
 	

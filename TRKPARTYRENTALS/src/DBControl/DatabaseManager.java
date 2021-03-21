@@ -1,5 +1,6 @@
 package DBControl;
 import database.TrkDatabaseConnect;
+import persistent.Resource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -147,7 +148,28 @@ public class DatabaseManager{
 	}
 	
 	
-	
+	public int addEquipmentDetails(Resource resource){
+		try {
+			TrkDatabaseConnect trkconn=this.getTrkconnect();
+			String query="INSERT INTO resource (EquipmentID,EquipmentName,Total_Quantity,Remaining_Quantity) VALUES (?, ?, ?, ?)";
+			
+			String id = resource.getID();
+			String name = resource.getEname();
+			String t_qty = "" + resource.getT_Qty();
+			String r_qty = "" + resource.getR_Qty();
+			
+			
+			PreparedStatement statement =trkconn.getDbconn().prepareStatement(query);
+			statement.setString(1, id); 
+			statement.setString(2, name); 
+			statement.setString(3, t_qty);
+			statement.setString(4, r_qty);
+			return statement.executeUpdate();
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return -1;
+		}
+	}
 
 	
 }

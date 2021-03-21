@@ -46,6 +46,8 @@ import java.awt.SystemColor;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JList;
 import javax.swing.JSeparator;
+import javax.swing.JScrollBar;
+import javax.swing.JRadioButton;
 public class TRKGUI {
 
 	private JFrame frmResourceSchedulingApp;
@@ -67,6 +69,11 @@ public class TRKGUI {
 	private JTextField txtpnInvalidCredentialsEntered;
 	DefaultListModel<String> listModel = new DefaultListModel<String>();
 	JList resourcelist = new JList(listModel);
+	private JTable addPrelimTable;
+	private final JButton addToListBtn = new JButton("Add to List");
+	private static int end = 100;
+	private JTextField search;
+	private JTable dInventoryTable;
 	
 	/**
 	 * Launch the application.
@@ -485,35 +492,26 @@ public class TRKGUI {
 		addEqu_panel.add(a4, BorderLayout.CENTER);
 		
 		JPanel a4_1 = new JPanel();
-		a4_1.setBounds(207, 68, 362, 274);
+		a4_1.setBorder(new TitledBorder(null, "Add new equipment to list", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		a4_1.setBounds(39, 74, 704, 280);
 		
 		JLabel aLabel_1 = new JLabel("Name");
-		aLabel_1.setBounds(0, 0, 53, 22);
-		aLabel_1.setFont(new Font("Tahoma", Font.BOLD, 18));
+		aLabel_1.setBounds(41, 71, 53, 22);
+		aLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
-		JTextField atextField_1 = new JTextField();
-		atextField_1.setBounds(0, 25, 362, 37);
-		atextField_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		atextField_1.setColumns(15);
+		JTextField addEquipNameField = new JTextField();
+		addEquipNameField.setBounds(104, 67, 224, 29);
+		addEquipNameField.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		addEquipNameField.setColumns(15);
 		
 		JLabel aLabel_2 = new JLabel("Quantity");
-		aLabel_2.setBounds(0, 90, 78, 22);
-		aLabel_2.setFont(new Font("Tahoma", Font.BOLD, 18));
+		aLabel_2.setBounds(27, 123, 78, 22);
+		aLabel_2.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
-		JTextField atextField_2 = new JTextField();
-		atextField_2.setBounds(0, 114, 362, 37);
-		atextField_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		atextField_2.setColumns(5);
-		
-		JLabel aLabel_3 = new JLabel("Equipment ID");
-		aLabel_3.setBounds(0, 184, 125, 22);
-		aLabel_3.setFont(new Font("Tahoma", Font.BOLD, 18));
-		
-		JTextArea atextArea = new JTextArea();
-		atextArea.setBounds(0, 210, 362, 35);
-		atextArea.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		atextArea.setEditable(false);
-		atextArea.setColumns(10);
+		JTextField addEquipQtyField = new JTextField();
+		addEquipQtyField.setBounds(104, 119, 224, 29);
+		addEquipQtyField.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		addEquipQtyField.setColumns(5);
 		
 		JButton aSave = new JButton("Save");
 		aSave.setBounds(193, 385, 113, 33);
@@ -525,14 +523,111 @@ public class TRKGUI {
 		a4.setLayout(null);
 		a4_1.setLayout(null);
 		a4_1.add(aLabel_1);
-		a4_1.add(atextField_1);
+		a4_1.add(addEquipNameField);
 		a4_1.add(aLabel_2);
-		a4_1.add(atextField_2);
-		a4_1.add(aLabel_3);
-		a4_1.add(atextArea);
+		a4_1.add(addEquipQtyField);
 		a4.add(a4_1);
+		
+		JScrollPane scrollPane_5 = new JScrollPane();
+		scrollPane_5.setBounds(386, 52, 277, 174);
+		a4_1.add(scrollPane_5);
+		
+		addPrelimTable = new JTable();
+		addPrelimTable.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		addPrelimTable.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Equipment Name", "Quantity"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, Integer.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+				false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollPane_5.setViewportView(addPrelimTable);
+		addToListBtn.setBounds(27, 185, 137, 23);
+		
+		a4_1.add(addToListBtn);
+		
+		addToListBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) addPrelimTable.getModel();
+				model.addRow(new Object[] {addEquipNameField.getText(), Integer.parseInt(addEquipQtyField.getText())});
+				addEquipNameField.setText("");
+				addEquipQtyField.setText("");
+			}
+		});
+		
+		JButton removeFromListBtn = new JButton("Remove from List");
+		removeFromListBtn.setBounds(191, 185, 137, 23);
+		a4_1.add(removeFromListBtn);
 		a4.add(aSave);
 		a4.add(aBack);
+		
+		removeFromListBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) addPrelimTable.getModel();
+				
+				int numRows = addPrelimTable.getSelectedRows().length;
+				for(int i=0; i<numRows ; i++ ) {
+
+				    model.removeRow(addPrelimTable.getSelectedRow());
+				}
+				
+			}
+		});
+		
+		aSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) addPrelimTable.getModel();
+				
+				ArrayList<String> names = new ArrayList<String>();
+				ArrayList<String> quantities = new ArrayList<String>();
+		        for (int count = 0; count < model.getRowCount(); count++){
+		              names.add(model.getValueAt(count, 0).toString());
+		              quantities.add(model.getValueAt(count, 1).toString());
+		        }
+		        
+		        System.out.println(names);
+		        System.out.println(quantities);
+		        
+		        for (int count = 0; count < names.size(); count++){
+		        
+		        	String equipName = names.get(count);
+		        	int equipQty = Integer.parseInt(quantities.get(count));
+		        	
+			        //Beginning of Generate ID Section
+			        
+			        String first;
+					first = equipName.substring(0, 3).toLowerCase();
+					String id = first + '#' + end;
+					end += 1;
+					
+					//End of Generate ID Section
+					
+					app.callAddEquipment(id, equipName, equipQty, equipQty);
+					
+					while (model.getRowCount() > 0) {
+			             model.removeRow(0);
+			         }
+					
+					JOptionPane.showMessageDialog(null,"Equipment was successfully scheduled.","Success",JOptionPane.INFORMATION_MESSAGE);
+					
+		        }		
+						
+			}
+		});
+		
 		
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Add Equipment to Inventory", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -631,10 +726,6 @@ public class TRKGUI {
 		JPanel d1 = new JPanel();
 		delEqu_panel.add(d1, BorderLayout.NORTH);
 		
-		JLabel d_Label_1 = new JLabel("Delete Equipment Information");
-		d_Label_1.setFont(new Font("Segoe Script", Font.PLAIN, 30));
-		d1.add(d_Label_1);
-		
 		JPanel d2 = new JPanel();
 		delEqu_panel.add(d2, BorderLayout.WEST);
 		d2.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 5));
@@ -647,57 +738,110 @@ public class TRKGUI {
 		JPanel d4 = new JPanel();
 		delEqu_panel.add(d4, BorderLayout.CENTER);
 		
-		JPanel d4_1 = new JPanel();
-		d4_1.setLayout(new MigLayout("", "[grow]", "[][grow]"));
+		JLabel d_Label_1 = new JLabel("Delete Equipment");
+		d_Label_1.setFont(new Font("Modern No. 20", Font.BOLD, 52));
 		
-		JButton dDelete = new JButton("Delete");
-		dDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
-		JButton dBack = new JButton("Back");
-		dBack.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JPanel d5 = new JPanel();
+		d5.setLayout(null);
+		d5.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		d5.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Delete equipment from Inventory", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
 		GroupLayout gl_d4 = new GroupLayout(d4);
 		gl_d4.setHorizontalGroup(
-			gl_d4.createParallelGroup(Alignment.LEADING)
+			gl_d4.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_d4.createSequentialGroup()
-					.addGroup(gl_d4.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_d4.createSequentialGroup()
-							.addGap(158)
-							.addComponent(dDelete)
-							.addGap(48)
-							.addComponent(dBack))
-						.addGroup(gl_d4.createSequentialGroup()
-							.addGap(72)
-							.addComponent(d4_1, GroupLayout.PREFERRED_SIZE, 353, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(71, Short.MAX_VALUE))
+					.addGap(24)
+					.addComponent(d5, GroupLayout.PREFERRED_SIZE, 749, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(21, Short.MAX_VALUE))
+				.addGroup(gl_d4.createSequentialGroup()
+					.addContainerGap(206, Short.MAX_VALUE)
+					.addComponent(d_Label_1)
+					.addGap(188))
 		);
 		gl_d4.setVerticalGroup(
 			gl_d4.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_d4.createSequentialGroup()
-					.addGap(18)
-					.addComponent(d4_1, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addGroup(gl_d4.createParallelGroup(Alignment.BASELINE)
-						.addComponent(dBack)
-						.addComponent(dDelete))
-					.addContainerGap(38, Short.MAX_VALUE))
+					.addGap(23)
+					.addComponent(d_Label_1)
+					.addGap(32)
+					.addComponent(d5, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(89, Short.MAX_VALUE))
 		);
 		
-		JLabel d_Label_2 = new JLabel("Equipment ID:");
-		d_Label_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		d4_1.add(d_Label_2, "flowx,cell 0 0");
+		JButton dDelete = new JButton("Delete Equipment");
+		dDelete.setBounds(29, 386, 152, 25);
+		d5.add(dDelete);
+		dDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		JTextField dtextField = new JTextField();
-		dtextField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		d4_1.add(dtextField, "cell 0 0");
-		dtextField.setColumns(10);
+		JButton dBack = new JButton("Back");
+		dBack.setBounds(200, 386, 104, 25);
+		d5.add(dBack);
+		dBack.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		JScrollPane dscrollPane = new JScrollPane();
-		d4_1.add(dscrollPane, "cell 0 1,grow");
+		search = new JTextField();
+		search.setBounds(29, 70, 275, 32);
+		d5.add(search);
+		search.setColumns(10);
 		
-		JTextArea dtextArea = new JTextArea();
-		dtextArea.setEditable(false);
-		dscrollPane.setViewportView(dtextArea);
+		JLabel searchLabel = new JLabel("Search");
+		searchLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		searchLabel.setBounds(29, 45, 71, 14);
+		d5.add(searchLabel);
+		
+		JScrollPane scrollPane_6 = new JScrollPane();
+		scrollPane_6.setBounds(373, 57, 337, 354);
+		d5.add(scrollPane_6);
+		
+		dInventoryTable = new JTable();
+		dInventoryTable.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Equipment ID", "Name"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollPane_6.setViewportView(dInventoryTable);
+		
+		JButton searchByNameBtn = new JButton("Search by Name");
+		searchByNameBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		searchByNameBtn.setBounds(172, 113, 132, 23);
+		d5.add(searchByNameBtn);
+		
+		JButton searchByIDBtn = new JButton("Search by ID");
+		searchByIDBtn.setBounds(29, 113, 125, 23);
+		d5.add(searchByIDBtn);
+		
+		dBack.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent arg0) {
+				OwnerMenu.show();
+				options_panel2.hide();
+				login_panel.hide();	
+				addEqu_panel.hide();
+				modEqu_panel.hide();
+				delEqu_panel.hide();
+				schedule_panel.hide();
+				modify_schedule_panel.hide();
+				search_panel.hide();
+				view_schedule_panel.hide();
+				schedule_panel_1.hide();
+				view_schedule_panel_1.hide();
+				search_panel_1.hide();
+				dtextField.setText("");
+				dtextArea.setText("");
+				
+			}
+		});
 		d4.setLayout(gl_d4);
 		
 		/**
@@ -1917,27 +2061,6 @@ public class TRKGUI {
 			}
 		});
 		
-		dBack.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
-			public void actionPerformed(ActionEvent arg0) {
-				OwnerMenu.show();
-				options_panel2.hide();
-				login_panel.hide();	
-				addEqu_panel.hide();
-				modEqu_panel.hide();
-				delEqu_panel.hide();
-				schedule_panel.hide();
-				modify_schedule_panel.hide();
-				search_panel.hide();
-				view_schedule_panel.hide();
-				schedule_panel_1.hide();
-				view_schedule_panel_1.hide();
-				search_panel_1.hide();
-				dtextField.setText("");
-				dtextArea.setText("");
-			}
-		});
-		
 		scheduleBackbtn.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
@@ -2261,6 +2384,5 @@ public class TRKGUI {
 			listModel.addElement(id);
 		}
 	}
-	
 }
 	
