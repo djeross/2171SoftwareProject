@@ -620,14 +620,13 @@ public class TRKGUI {
 					
 					app.callAddEquipment(id, equipName, equipQty, equipQty);
 					
-					JOptionPane.showMessageDialog(null,"Equipment was successfully scheduled.","Success",JOptionPane.INFORMATION_MESSAGE);
-					
-					while (model.getRowCount() > 0) {
-			             model.removeRow(0);
-			         }
-				
-					
-		        }		
+		        }	
+		        
+		        JOptionPane.showMessageDialog(null,"Equipment was successfully added.","Success",JOptionPane.INFORMATION_MESSAGE);
+		        
+		        while (model.getRowCount() > 0) {
+		             model.removeRow(0);
+		         }
 						
 			}
 		});
