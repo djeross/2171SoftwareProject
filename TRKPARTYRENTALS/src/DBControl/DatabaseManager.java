@@ -202,6 +202,43 @@ public class DatabaseManager{
 			return null;
 		}
 	}
+	
+	public ResultSet getEquipmentByID(String equip_id){
+		try {
+			TrkDatabaseConnect trkconn=this.getTrkconnect();
+			
+			String query = ("SELECT * FROM resource WHERE EquipmentID LIKE '%" + equip_id + "%';");
+			
+			PreparedStatement statement =trkconn.getDbconn().prepareStatement(query);
+			
+			ResultSet rs = statement.executeQuery(query);
+			
+			return rs;
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ResultSet getEquipmentByName(String equip_name){
+		try {
+			TrkDatabaseConnect trkconn=this.getTrkconnect();
+			
+			String query = ("SELECT * FROM resource WHERE EquipmentName LIKE '%" + equip_name + "%';");
+			
+			PreparedStatement statement =trkconn.getDbconn().prepareStatement(query);
+			
+			ResultSet rs = statement.executeQuery(query);
+			
+			return rs;
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
 
 	
 }

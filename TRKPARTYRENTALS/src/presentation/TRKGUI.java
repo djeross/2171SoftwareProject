@@ -564,10 +564,21 @@ public class TRKGUI {
 		
 		addToListBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel model = (DefaultTableModel) addPrelimTable.getModel();
-				model.addRow(new Object[] {addEquipNameField.getText(), Integer.parseInt(addEquipQtyField.getText())});
-				addEquipNameField.setText("");
-				addEquipQtyField.setText("");
+				
+				if (addEquipNameField.getText().isBlank() || addEquipQtyField.getText().isBlank()) {
+					
+					JOptionPane.showMessageDialog(null, "Please fill out all fields.", "System Warning",JOptionPane.WARNING_MESSAGE);
+					
+				} else if (app.isValidQty(addEquipQtyField.getText()) == false) {
+					JOptionPane.showMessageDialog(null, "Please enter a number for the equipment quantity.", "System Warning",JOptionPane.WARNING_MESSAGE);
+				} else {
+					
+					DefaultTableModel model = (DefaultTableModel) addPrelimTable.getModel();
+					model.addRow(new Object[] {addEquipNameField.getText(), Integer.parseInt(addEquipQtyField.getText())});
+					addEquipNameField.setText("");
+					addEquipQtyField.setText("");
+					
+				}
 			}
 		});
 		
@@ -581,11 +592,20 @@ public class TRKGUI {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) addPrelimTable.getModel();
 				
-				int numRows = addPrelimTable.getSelectedRows().length;
-				for(int i=0; i<numRows ; i++ ) {
+				if (addPrelimTable.getSelectedRows().length == 0) {
+					
+					JOptionPane.showMessageDialog(null, "Please select a record from the table.", "System Warning",JOptionPane.WARNING_MESSAGE);
+					
+				} else {
+					
+					int numRows = addPrelimTable.getSelectedRows().length;
+					for(int i=0; i<numRows ; i++ ) {
 
-				    model.removeRow(addPrelimTable.getSelectedRow());
+					    model.removeRow(addPrelimTable.getSelectedRow());
+					}
+					
 				}
+				
 				
 			}
 		});
@@ -594,40 +614,47 @@ public class TRKGUI {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) addPrelimTable.getModel();
 				
-				ArrayList<String> names = new ArrayList<String>();
-				ArrayList<String> quantities = new ArrayList<String>();
-		        for (int count = 0; count < model.getRowCount(); count++){
-		              names.add(model.getValueAt(count, 0).toString());
-		              quantities.add(model.getValueAt(count, 1).toString());
-		        }
-		        
-		        System.out.println(names);
-		        System.out.println(quantities);
-		        
-		        for (int count = 0; count < names.size(); count++){
-		        
-		        	String equipName = names.get(count);
-		        	int equipQty = Integer.parseInt(quantities.get(count));
-		        	
-			        //Beginning of Generate ID Section
+				if (model.getRowCount() == 0) {
+					
+					JOptionPane.showMessageDialog(null, "Please add at least one new equipment to table.", "System Warning",JOptionPane.WARNING_MESSAGE);
+					
+				} else {
+				
+					ArrayList<String> names = new ArrayList<String>();
+					ArrayList<String> quantities = new ArrayList<String>();
+			        for (int count = 0; count < model.getRowCount(); count++){
+			              names.add(model.getValueAt(count, 0).toString());
+			              quantities.add(model.getValueAt(count, 1).toString());
+			        }
 			        
-			        String first;
-					first = equipName.substring(0, 3).toLowerCase();
-					String id = first + '#' + end;
-					end += 1;
-					
-					//End of Generate ID Section
-					
-					app.callAddEquipment(id, equipName, equipQty, equipQty);
-					
-		        }	
-		        
-		        JOptionPane.showMessageDialog(null,"Equipment was successfully added.","Success",JOptionPane.INFORMATION_MESSAGE);
-		        
-		        while (model.getRowCount() > 0) {
-		             model.removeRow(0);
-		         }
+			        System.out.println(names);
+			        System.out.println(quantities);
+			        
+			        for (int count = 0; count < names.size(); count++){
+			        
+			        	String equipName = names.get(count);
+			        	int equipQty = Integer.parseInt(quantities.get(count));
+			        	
+				        //Beginning of Generate ID Section
+				        
+				        String first;
+						first = equipName.substring(0, 3).toLowerCase();
+						String id = first + '#' + end;
+						end += 1;
 						
+						//End of Generate ID Section
+						
+						app.callAddEquipment(id, equipName, equipQty, equipQty);
+						
+			        }	
+			        
+			        JOptionPane.showMessageDialog(null,"Equipment was successfully added.","Success",JOptionPane.INFORMATION_MESSAGE);
+			        
+			        while (model.getRowCount() > 0) {
+			             model.removeRow(0);
+			         }
+						
+				}
 			}
 		});
 		
@@ -845,24 +872,108 @@ public class TRKGUI {
 			
 		}
 		
+		searchByIDBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				DefaultTableModel model = (DefaultTableModel) dInventoryTable.getModel();
+				
+				String id = search.getText();
+				
+				if (id.isBlank()) {
+					
+					JOptionPane.showMessageDialog(null, "Please enter an equipment ID number.", "System Warning",JOptionPane.WARNING_MESSAGE);
+					
+				} else {
+					
+					while (model.getRowCount() > 0) {
+			             model.removeRow(0);
+			         }
+				
+					ResultSet equipment = app.callGetEquipmentByID(id);
+					
+					while (true) {
+						
+						try {
+							if (equipment.next()) {
+								model.addRow(new Object[] {equipment.getString("EquipmentID"), equipment.getString("EquipmentName")});
+							} else {
+								break;
+							}
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+					}
+				}
+				
+			}
+		});
+		
+		searchByNameBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				DefaultTableModel model = (DefaultTableModel) dInventoryTable.getModel();
+				
+				String name = search.getText();
+				
+				if (name.isBlank()) {
+					
+					JOptionPane.showMessageDialog(null, "Please enter an equipment name.", "System Warning",JOptionPane.WARNING_MESSAGE);
+					
+				} else {
+					
+					while (model.getRowCount() > 0) {
+			             model.removeRow(0);
+			         }
+				
+					ResultSet equipment = app.callGetEquipmentByName(name);
+					
+					while (true) {
+						
+						try {
+							if (equipment.next()) {
+								model.addRow(new Object[] {equipment.getString("EquipmentID"), equipment.getString("EquipmentName")});
+							} else {
+								break;
+							}
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+					}
+				}
+				
+			}
+		});
+		
 		dDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				DefaultTableModel model = (DefaultTableModel) dInventoryTable.getModel();
 				
-				int column = 0;
-				int row = dInventoryTable.getSelectedRow();
-				String value = dInventoryTable.getModel().getValueAt(row, column).toString();
-				
-				System.out.println(value);
-				
-				int numRows = dInventoryTable.getSelectedRows().length;
-				for(int i=0; i<numRows ; i++ ) {
+				if (dInventoryTable.getSelectedRows().length == 0) {
 					
-				    model.removeRow(dInventoryTable.getSelectedRow());
+					JOptionPane.showMessageDialog(null, "Please enter an equipment record from the table.", "System Warning",JOptionPane.WARNING_MESSAGE);
+					
+				} else {
+					
+					int column = 0;
+					int row = dInventoryTable.getSelectedRow();
+					String value = dInventoryTable.getModel().getValueAt(row, column).toString();
+					
+					System.out.println(value);
+					
+					int numRows = dInventoryTable.getSelectedRows().length;
+					for(int i=0; i<numRows ; i++ ) {
+						
+					    model.removeRow(dInventoryTable.getSelectedRow());
+					}
+					
+					app.callDeleteEquipment(value);
+					
 				}
-				
-				app.callDeleteEquipment(value);
 				
 			}
 		});
