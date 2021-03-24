@@ -39,13 +39,5 @@ public class EquipmentManager {
 		return dbmanager.getAllEquipment();
 	}
 	
-	public ResultSet getEquipmentByID(String equip_id) {
-		return dbmanager.getEquipmentByID(equip_id);
-	}
-	
-	public ResultSet getEquipmentByName(String equip_name) {
-		return dbmanager.getEquipmentByName(equip_name);
-	}
-	
 
 }

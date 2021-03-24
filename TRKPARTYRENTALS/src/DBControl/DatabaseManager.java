@@ -80,6 +80,30 @@ public class DatabaseManager{
 	}
 
 
+	public ArrayList<Object[]> allEquipmentSchedules(){
+		ArrayList<Object[]>list=new ArrayList<String>();
+		String query="SELECT EventID, EquipmentID, Quantity FROM contains ";
+		ResultSet result;
+		try {
+			result = getTrkconnect().getStmt().executeQuery(query);
+			String eventid,equipid;
+			eventid=equipid="";
+			int quantity;
+			while(result.next()){
+				eventid = result.getString("EventID");
+				equipid = result.getString("Location");
+				quantity = Integer.parseInt(result.getString("Quantity"));
+				Object[] schEqp = new Object[]{eventid,equipid,quantity};
+				list.add(schEqp);
+			}
+			return list;
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			return list;
+		}
+	}
+
 	/**
 	 * Schedule an equipment for an event.
 	 * @param schedule schedule object from which the attribute will be used to update database. 
@@ -202,43 +226,24 @@ public class DatabaseManager{
 			return null;
 		}
 	}
-	
-	public ResultSet getEquipmentByID(String equip_id){
-		try {
-			TrkDatabaseConnect trkconn=this.getTrkconnect();
-			
-			String query = ("SELECT * FROM resource WHERE EquipmentID LIKE '%" + equip_id + "%';");
-			
-			PreparedStatement statement =trkconn.getDbconn().prepareStatement(query);
-			
-			ResultSet rs = statement.executeQuery(query);
-			
-			return rs;
-			
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
-		}
-	}
-	
-	public ResultSet getEquipmentByName(String equip_name){
-		try {
-			TrkDatabaseConnect trkconn=this.getTrkconnect();
-			
-			String query = ("SELECT * FROM resource WHERE EquipmentName LIKE '%" + equip_name + "%';");
-			
-			PreparedStatement statement =trkconn.getDbconn().prepareStatement(query);
-			
-			ResultSet rs = statement.executeQuery(query);
-			
-			return rs;
-			
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
-		}
-	}
 
+	public ResultSet getAllSchedules(){
+		try {
+			TrkDatabaseConnect trkconn=this.getTrkconnect();
+			
+			String query = ("SELECT * FROM contains;");
+			
+			PreparedStatement statement =trkconn.getDbconn().prepareStatement(query);
+			
+			ResultSet rs = statement.executeQuery(query);
+			
+			return rs;
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return null;
+		}
+	}
 
 	
 }

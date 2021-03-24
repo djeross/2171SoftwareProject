@@ -38,6 +38,9 @@ public class ScheduleManager {
 		return response;
 	}
 	
-	
-	
+	public ResultSet viewAllSchedules(){
+		return dbmanager.getAllSchedules();
+	}
+
+
 }
