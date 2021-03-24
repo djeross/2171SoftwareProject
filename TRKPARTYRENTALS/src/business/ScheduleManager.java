@@ -1,5 +1,6 @@
 package business;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import DBControl.DatabaseManager;

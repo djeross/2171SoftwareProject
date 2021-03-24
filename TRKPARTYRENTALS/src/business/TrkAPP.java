@@ -41,7 +41,7 @@ public class TrkAPP {
 		equipmentmanager.deleteEquipment(equip_id);
 	}
 
-	public String callViewAllSchedules(){
+	public ResultSet callViewAllSchedules(){
 		return schedulemanager.viewAllSchedules();
 	}
 			
