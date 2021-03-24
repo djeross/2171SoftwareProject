@@ -35,6 +35,11 @@ public class EquipmentManager {
 		
 	}
 	
+	public void modifyEquipment(String equip_id, String equip_name, int t_Qty,int r_Qty) {
+		Resource resource = new Resource(equip_id, equip_name, t_Qty, r_Qty);
+		dbmanager.modifyEquipment(resource);
+	}
+	
 	public ResultSet getAllEquipment() {
 		return dbmanager.getAllEquipment();
 	}
