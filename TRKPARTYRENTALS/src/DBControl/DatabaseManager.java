@@ -80,29 +80,7 @@ public class DatabaseManager{
 	}
 
 
-	public ArrayList<Object[]> allEquipmentSchedules(){
-		ArrayList<Object[]>list=new ArrayList<String>();
-		String query="SELECT EventID, EquipmentID, Quantity FROM contains ";
-		ResultSet result;
-		try {
-			result = getTrkconnect().getStmt().executeQuery(query);
-			String eventid,equipid;
-			eventid=equipid="";
-			int quantity;
-			while(result.next()){
-				eventid = result.getString("EventID");
-				equipid = result.getString("Location");
-				quantity = Integer.parseInt(result.getString("Quantity"));
-				Object[] schEqp = new Object[]{eventid,equipid,quantity};
-				list.add(schEqp);
-			}
-			return list;
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-			return list;
-		}
-	}
+
 
 	/**
 	 * Schedule an equipment for an event.
