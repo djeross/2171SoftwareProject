@@ -40,6 +40,10 @@ public class TrkAPP {
 	public void callDeleteEquipment(String equip_id){
 		equipmentmanager.deleteEquipment(equip_id);
 	}
+	
+	public void callModifyEquipment(String equip_id, String equip_name,int t_Qty,int r_Qty) {
+		equipmentmanager.modifyEquipment(equip_id, equip_name, t_Qty, r_Qty);
+	}
 			
 	public ResultSet callGetAllEquipment() {
 		return equipmentmanager.getAllEquipment();
