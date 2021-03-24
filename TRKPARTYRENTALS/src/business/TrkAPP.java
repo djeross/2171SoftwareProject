@@ -1,7 +1,10 @@
 package business;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
+import database.TrkDatabaseConnect;
 
 
 public class TrkAPP {
@@ -45,6 +48,24 @@ public class TrkAPP {
 		return equipmentmanager.getAllEquipment();
 	}
 	
+	public ResultSet callGetEquipmentByID(String equip_id) {
+		return equipmentmanager.getEquipmentByID(equip_id);
+	}
+	
+	public ResultSet callGetEquipmentByName(String equip_name) {
+		return equipmentmanager.getEquipmentByName(equip_name);
+	}
+	
+	public Boolean isValidQty(String qty) {
+		try {
+			int intQty = Integer.parseInt(qty);
+			return true;
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return false;
+		}
+	}
 		
 }
 
