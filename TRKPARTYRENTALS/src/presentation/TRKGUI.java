@@ -77,6 +77,8 @@ public class TRKGUI {
 	private static int end = 100;
 	private JTextField search;
 	private JTable dInventoryTable;
+	private JTable modifyEquipTable;
+	private JTextField equipName;
 	
 	/**
 	 * Launch the application.
@@ -650,7 +652,7 @@ public class TRKGUI {
 		modEqu_panel.add(mE1, BorderLayout.NORTH);
 		
 		JLabel mE_Label_1 = new JLabel("Modify Equipment Information");
-		mE_Label_1.setFont(new Font("Segoe Script", Font.PLAIN, 30));
+		mE_Label_1.setFont(new Font("Modern No. 20", Font.PLAIN, 68));
 		mE1.add(mE_Label_1);
 		
 		JPanel mE2 = new JPanel();
@@ -666,57 +668,152 @@ public class TRKGUI {
 		JPanel mE4 = new JPanel();
 		modEqu_panel.add(mE4, BorderLayout.CENTER);
 		
-		JPanel mE4_1 = new JPanel();
+		JScrollPane scrollPane_7 = new JScrollPane();
 		
-		JButton mESave = new JButton("Save");
-		mESave.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JTextField equipID = new JTextField();
+		equipID.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		equipID.setColumns(10);
+		
+		JLabel mE_Label_2 = new JLabel("Equipment ID:");
+		mE_Label_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		JTextField getEquipQty = new JTextField();
+		getEquipQty.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		getEquipQty.setColumns(10);
+		
+		JLabel mE_Label_3 = new JLabel("Quantity:");
+		mE_Label_3.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		modifyEquipTable = new JTable();
+		
+		DefaultTableModel dmodel = (DefaultTableModel) modifyEquipTable.getModel();
+		
+		ResultSet mallEquipment = app.callGetAllEquipment();
+		
+		while (true) {
+			
+			try {
+				if (mallEquipment.next()) {
+					dmodel.addRow(new Object[] {mallEquipment.getString("EquipmentID"), mallEquipment.getString("EquipmentQuantity")});
+				} else {
+					break;
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		}
+		
+		JButton mE4Update = new JButton("Update");
+		mE4Update.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		mE4Update.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					DefaultTableModel model = (DefaultTableModel) modifyEquipTable.getModel();
+					
+					//get values from text field
+					String eqid = equipID.getText();
+					String eqname = equipName.getText();
+					String eqqty = getEquipQty.getText();
+					
+					int qty = Integer.parseInt(eqqty);
+					
+					model.addRow(new Object[] {eqid, qty});
+					equipID.setText("");
+					equipName.setText("");
+					getEquipQty.setText("");
+					
+					app.callModifyEquipment(eqid, eqname, qty, qty);
+				}
 				
-		JButton mEBack = new JButton("Back");
-		mEBack.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		});
+		
+		JButton modifyBackBtn = new JButton("Back");
+		modifyBackBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		equipName = new JTextField();
+		equipName.setColumns(10);
+		
+		JLabel mE_Label_4 = new JLabel("Equipment Name:");
+		mE_Label_4.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		GroupLayout gl_mE4 = new GroupLayout(mE4);
 		gl_mE4.setHorizontalGroup(
 			gl_mE4.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_mE4.createSequentialGroup()
-					.addContainerGap(198, Short.MAX_VALUE)
-					.addComponent(mESave)
-					.addGap(10)
-					.addComponent(mEBack)
-					.addGap(180))
-				.addGroup(gl_mE4.createSequentialGroup()
-					.addGap(133)
-					.addComponent(mE4_1, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(163, Short.MAX_VALUE))
+					.addGroup(gl_mE4.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_mE4.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(mE_Label_4))
+						.addGroup(gl_mE4.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(gl_mE4.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(equipName))
+							.addGroup(gl_mE4.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(equipID, GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
+							.addGroup(gl_mE4.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(mE_Label_2))
+							.addGroup(gl_mE4.createSequentialGroup()
+								.addGap(33)
+								.addComponent(mE4Update)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(modifyBackBtn, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_mE4.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(getEquipQty, GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
+							.addGroup(gl_mE4.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(mE_Label_3))))
+					.addGap(130)
+					.addComponent(scrollPane_7, GroupLayout.PREFERRED_SIZE, 280, GroupLayout.PREFERRED_SIZE)
+					.addGap(151))
 		);
 		gl_mE4.setVerticalGroup(
 			gl_mE4.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_mE4.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(mE4_1, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-					.addGap(34)
 					.addGroup(gl_mE4.createParallelGroup(Alignment.LEADING)
-						.addComponent(mESave)
-						.addComponent(mEBack)))
+						.addGroup(gl_mE4.createSequentialGroup()
+							.addGap(55)
+							.addComponent(mE_Label_2)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(equipID, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+							.addGap(35)
+							.addComponent(mE_Label_4)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(equipName, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+							.addGap(20)
+							.addComponent(mE_Label_3)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(getEquipQty, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+							.addGap(41)
+							.addGroup(gl_mE4.createParallelGroup(Alignment.BASELINE)
+								.addComponent(mE4Update, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+								.addComponent(modifyBackBtn, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_mE4.createSequentialGroup()
+							.addGap(71)
+							.addComponent(scrollPane_7, GroupLayout.PREFERRED_SIZE, 331, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(166, Short.MAX_VALUE))
 		);
 		
-		JTextField mEtextField_1 = new JTextField();
-		mEtextField_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		mEtextField_1.setColumns(10);
 		
-		JTextField mEtextField_2 = new JTextField();
-		mEtextField_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		mEtextField_2.setColumns(10);
-		mE4_1.setLayout(new BoxLayout(mE4_1, BoxLayout.Y_AXIS));
-		
-		JLabel mE_Label_2 = new JLabel("Equipment ID:");
-		mE_Label_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		mE4_1.add(mE_Label_2);
-		mE4_1.add(mEtextField_1);
-		
-		JLabel mE_Label_3 = new JLabel("Quantity:");
-		mE_Label_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		mE4_1.add(mE_Label_3);
-		mE4_1.add(mEtextField_2);
+		modifyEquipTable.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		modifyEquipTable.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Equipment ID", "Quantity"
+				})
+		{
+			boolean[] columnEditables = new boolean[] {
+				false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollPane_7.setViewportView(modifyEquipTable);
 		mE4.setLayout(gl_mE4);
 		
 		/**
@@ -2091,7 +2188,28 @@ public class TRKGUI {
 		
 		/**
 		 * Action listeners for the back buttons on each option panel
-		 */		
+		 */
+		modifyBackBtn.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent arg0) {
+				OwnerMenu.show();
+				options_panel2.hide();
+				login_panel.hide();	
+				addEqu_panel.hide();
+				modEqu_panel.hide();
+				delEqu_panel.hide();
+				schedule_panel.hide();
+				modify_schedule_panel.hide();
+				search_panel.hide();
+				view_schedule_panel.hide();
+				schedule_panel_1.hide();
+				view_schedule_panel_1.hide();
+				search_panel_1.hide();
+				equipID.setText("");
+				getEquipQty.setText("");
+			}
+		});
+		
 		aBack.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
