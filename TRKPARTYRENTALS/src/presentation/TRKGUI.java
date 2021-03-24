@@ -77,6 +77,7 @@ public class TRKGUI {
 	private static int end = 100;
 	private JTextField search;
 	private JTable dInventoryTable;
+	private JTable schedule_table;
 	
 	/**
 	 * Launch the application.
@@ -115,10 +116,6 @@ public class TRKGUI {
 		JPanel panel = new JPanel();
 		frmResourceSchedulingApp.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new CardLayout(0, 0));
-		
-		/**
-		 * The contents of the login card/page
-		 */
 		JPanel login_panel = new JPanel();
 		panel.add(login_panel, "login");
 		login_panel.setLayout(null);
@@ -414,7 +411,7 @@ public class TRKGUI {
 		options.add(schedule_button);
 		options.add(modSch_button);
 		options.add(viewSch_button);
-		options.add(all_schedule_button);
+		options.add(all_schedule_btn);
 		
 		JLabel Equipment_Management_Border = new JLabel("");
 		Equipment_Management_Border.setBorder(new TitledBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null), "Equipment Management", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -908,7 +905,6 @@ public class TRKGUI {
 				modify_schedule_panel.hide();
 				search_panel.hide();
 				view_schedule_panel.hide();
-				view_all_schedules_panel.hide();
 				schedule_panel_1.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
@@ -1416,100 +1412,366 @@ public class TRKGUI {
 		sr4_1.setLayout(gl_sr4_1);
 		sr4.setLayout(gl_sr4);
 		
-		
-		
 		/**
-		 * View All Schedules Panel
+		 * View Schedule Panel
 		 */
+		JPanel view_schedule_panel = new JPanel();
+		panel.add(view_schedule_panel, "name_191323147392800");
+		view_schedule_panel.setLayout(new BorderLayout(0, 0));
+		
+		JPanel vs1 = new JPanel();
+		view_schedule_panel.add(vs1, BorderLayout.NORTH);
+		
+		JLabel lblNewLabel_17 = new JLabel("View Equipment Schedule");
+		lblNewLabel_17.setFont(new Font("Segoe Script", Font.PLAIN, 30));
+		vs1.add(lblNewLabel_17);
+		
+		JPanel vs2 = new JPanel();
+		FlowLayout fl_vs2 = (FlowLayout) vs2.getLayout();
+		fl_vs2.setHgap(50);
+		view_schedule_panel.add(vs2, BorderLayout.WEST);
+		
+		JPanel vs3 = new JPanel();
+		FlowLayout fl_vs3 = (FlowLayout) vs3.getLayout();
+		fl_vs3.setHgap(50);
+		view_schedule_panel.add(vs3, BorderLayout.EAST);
+		
+		JPanel vs4 = new JPanel();
+		view_schedule_panel.add(vs4, BorderLayout.CENTER);
+		
+		JPanel vs4_1 = new JPanel();
+		vs4_1.setLayout(new MigLayout("", "[grow]", "[][]"));
+		
+		JLabel vs_Label_2 = new JLabel("Equipment ID:");
+		vs_Label_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		vs4_1.add(vs_Label_2, "flowx,cell 0 0,alignx center");
+		
+		JTextField vstextField = new JTextField();
+		vstextField.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		vs4_1.add(vstextField, "cell 0 0");
+		vstextField.setColumns(10);
+		
+		JScrollPane vs_scrollPane = new JScrollPane();
+		vs4_1.add(vs_scrollPane, "cell 0 1,grow");
+		
+		JTextArea vstextArea = new JTextArea();
+		vstextArea.setEditable(false);
+		vs_scrollPane.setViewportView(vstextArea);
+		vstextArea.setRows(10);
+		vstextArea.setColumns(50);
+		
+		JButton vsView = new JButton("View");
+		vsView.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		
+		JButton vsBack = new JButton("Back");
+		vsBack.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		GroupLayout gl_vs4 = new GroupLayout(vs4);
+		gl_vs4.setHorizontalGroup(
+			gl_vs4.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_vs4.createSequentialGroup()
+					.addGroup(gl_vs4.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_vs4.createSequentialGroup()
+							.addGap(39)
+							.addComponent(vs4_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_vs4.createSequentialGroup()
+							.addGap(157)
+							.addComponent(vsView)
+							.addGap(57)
+							.addComponent(vsBack)))
+					.addContainerGap(37, Short.MAX_VALUE))
+		);
+		gl_vs4.setVerticalGroup(
+			gl_vs4.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_vs4.createSequentialGroup()
+					.addGap(5)
+					.addComponent(vs4_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(gl_vs4.createParallelGroup(Alignment.BASELINE)
+						.addComponent(vsView)
+						.addComponent(vsBack))
+					.addContainerGap(129, Short.MAX_VALUE))
+		);
+		vs4.setLayout(gl_vs4);
+		
+		JPanel view_schedule_panel_1 = new JPanel();
+		panel.add(view_schedule_panel_1, "name_263145308522499");
+		view_schedule_panel_1.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_6 = new JPanel();
+		view_schedule_panel_1.add(panel_6, BorderLayout.NORTH);
+		
+		JLabel lblNewLabel_17_1 = new JLabel("View Equipment Schedule");
+		lblNewLabel_17_1.setFont(new Font("Segoe Script", Font.PLAIN, 30));
+		panel_6.add(lblNewLabel_17_1);
+		
+		JPanel panel_7 = new JPanel();
+		FlowLayout flowLayout_6 = (FlowLayout) panel_7.getLayout();
+		flowLayout_6.setHgap(50);
+		view_schedule_panel_1.add(panel_7, BorderLayout.WEST);
+		
+		JPanel panel_8 = new JPanel();
+		FlowLayout flowLayout_7 = (FlowLayout) panel_8.getLayout();
+		flowLayout_7.setHgap(50);
+		view_schedule_panel_1.add(panel_8, BorderLayout.EAST);
+		
+		JPanel panel_9 = new JPanel();
+		view_schedule_panel_1.add(panel_9, BorderLayout.CENTER);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		
+		JButton vsView_1 = new JButton("View");
+		vsView_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		JButton vsBack_1 = new JButton("Back");
+		vsBack_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		JPanel panel_19 = new JPanel();
+		GroupLayout gl_panel_9 = new GroupLayout(panel_9);
+		gl_panel_9.setHorizontalGroup(
+			gl_panel_9.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel_9.createSequentialGroup()
+					.addGroup(gl_panel_9.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_9.createSequentialGroup()
+							.addGap(23)
+							.addComponent(panel_19, GroupLayout.PREFERRED_SIZE, 449, GroupLayout.PREFERRED_SIZE)
+							.addGap(140)
+							.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_9.createSequentialGroup()
+							.addGap(127)
+							.addComponent(vsView_1)
+							.addGap(94)
+							.addComponent(vsBack_1)))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		gl_panel_9.setVerticalGroup(
+			gl_panel_9.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_9.createSequentialGroup()
+					.addGroup(gl_panel_9.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_9.createSequentialGroup()
+							.addGap(23)
+							.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_9.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(panel_19, GroupLayout.PREFERRED_SIZE, 226, GroupLayout.PREFERRED_SIZE)))
+					.addGap(30)
+					.addGroup(gl_panel_9.createParallelGroup(Alignment.BASELINE)
+						.addComponent(vsView_1)
+						.addComponent(vsBack_1))
+					.addContainerGap(105, Short.MAX_VALUE))
+		);
+		
+		JLabel vs_Label_2_1 = new JLabel("Equipment ID:");
+		vs_Label_2_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		textField_13 = new JTextField();
+		textField_13.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_13.setColumns(10);
+		
+		JTextArea vstextArea_1 = new JTextArea();
+		vstextArea_1.setRows(10);
+		vstextArea_1.setEditable(false);
+		vstextArea_1.setColumns(50);
+		GroupLayout gl_panel_19 = new GroupLayout(panel_19);
+		gl_panel_19.setHorizontalGroup(
+			gl_panel_19.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_19.createSequentialGroup()
+					.addGroup(gl_panel_19.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_19.createSequentialGroup()
+							.addGap(127)
+							.addComponent(vs_Label_2_1)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textField_13, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_19.createSequentialGroup()
+							.addGap(26)
+							.addComponent(vstextArea_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(147, Short.MAX_VALUE))
+		);
+		gl_panel_19.setVerticalGroup(
+			gl_panel_19.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_19.createSequentialGroup()
+					.addGroup(gl_panel_19.createParallelGroup(Alignment.BASELINE)
+						.addComponent(vs_Label_2_1)
+						.addComponent(textField_13, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(vstextArea_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(100, Short.MAX_VALUE))
+		);
+		panel_19.setLayout(gl_panel_19);
+		panel_9.setLayout(gl_panel_9);
+		
+		JPanel schedule_panel_1 = new JPanel();
+		panel.add(schedule_panel_1, "name_263458545026600");
+		schedule_panel_1.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_10 = new JPanel();
+		schedule_panel_1.add(panel_10, BorderLayout.NORTH);
+		
+		JLabel s_Label_1_1 = new JLabel("Schedule Equipment ");
+		s_Label_1_1.setFont(new Font("Segoe Script", Font.PLAIN, 30));
+		panel_10.add(s_Label_1_1);
+		
+		JPanel panel_11 = new JPanel();
+		FlowLayout flowLayout_4 = (FlowLayout) panel_11.getLayout();
+		flowLayout_4.setHgap(50);
+		schedule_panel_1.add(panel_11, BorderLayout.WEST);
+		
+		JPanel panel_12 = new JPanel();
+		FlowLayout flowLayout_5 = (FlowLayout) panel_12.getLayout();
+		flowLayout_5.setHgap(50);
+		schedule_panel_1.add(panel_12, BorderLayout.EAST);
+		
+		JPanel panel_13 = new JPanel();
+		schedule_panel_1.add(panel_13, BorderLayout.CENTER);
+		
+		JPanel panel_18 = new JPanel();
+		panel_18.setLayout(new BoxLayout(panel_18, BoxLayout.Y_AXIS));
+		
+		JLabel s_Label_id_2 = new JLabel("Equipment ID: ");
+		s_Label_id_2.setHorizontalAlignment(SwingConstants.RIGHT);
+		s_Label_id_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panel_18.add(s_Label_id_2);
+		
+		textField_id_3 = new JTextField();
+		textField_id_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_id_3.setColumns(10);
+		panel_18.add(textField_id_3);
+		
+		JLabel s_Label_2_1 = new JLabel("EventID: ");
+		s_Label_2_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		s_Label_2_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_18.add(s_Label_2_1);
+		
+		textField_6 = new JTextField();
+		textField_6.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_6.setColumns(10);
+		panel_18.add(textField_6);
+		
+		JLabel s_Label_3_1 = new JLabel("Location:");
+		s_Label_3_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		s_Label_3_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_18.add(s_Label_3_1);
+		
+		textField_7 = new JTextField();
+		textField_7.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_7.setColumns(10);
+		panel_18.add(textField_7);
+		
+		JLabel s_Label_4_1 = new JLabel("Date [yyyy-mm-dd]: ");
+		s_Label_4_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		s_Label_4_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_18.add(s_Label_4_1);
+		
+		textField_9 = new JTextField();
+		textField_9.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_9.setColumns(10);
+		panel_18.add(textField_9);
+		
+		JLabel s_Label_5_1 = new JLabel("Start Time [24 hr] [hh:mm]:");
+		s_Label_5_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		s_Label_5_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_18.add(s_Label_5_1);
+		
+		textField_10 = new JTextField();
+		textField_10.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_10.setColumns(10);
+		panel_18.add(textField_10);
+		
+		JLabel s_Label_6_1 = new JLabel("End Time [24 hr] [hh:mm]:");
+		s_Label_6_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		s_Label_6_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_18.add(s_Label_6_1);
+		
+		textField_11 = new JTextField();
+		textField_11.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_11.setColumns(10);
+		panel_18.add(textField_11);
+		
+		JLabel s_Label_7_1 = new JLabel("Quantity:");
+		s_Label_7_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		s_Label_7_1.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_18.add(s_Label_7_1);
+		
+		textField_12 = new JTextField();
+		textField_12.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_12.setColumns(10);
+		panel_18.add(textField_12);
+		
+		JButton sSchedule_1 = new JButton("Schedule");
+		sSchedule_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		JButton sBack_1 = new JButton("Back");
+		sBack_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		sBack_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		GroupLayout gl_panel_13 = new GroupLayout(panel_13);
+		gl_panel_13.setHorizontalGroup(
+			gl_panel_13.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_13.createSequentialGroup()
+					.addGap(126)
+					.addGroup(gl_panel_13.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_panel_13.createSequentialGroup()
+							.addComponent(sSchedule_1)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(sBack_1))
+						.addComponent(panel_18, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(126, Short.MAX_VALUE))
+		);
+		gl_panel_13.setVerticalGroup(
+			gl_panel_13.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_13.createSequentialGroup()
+					.addGap(5)
+					.addComponent(panel_18, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(41)
+					.addGroup(gl_panel_13.createParallelGroup(Alignment.BASELINE)
+						.addComponent(sSchedule_1)
+						.addComponent(sBack_1))
+					.addContainerGap(137, Short.MAX_VALUE))
+		);
+		panel_13.setLayout(gl_panel_13);
+		
 		JPanel view_all_schedules_panel = new JPanel();
-		panel.add(view_all_schedules_panel);
-		view_all_schedules_panel.setLayout(new BorderLayout(0, 0));
+		panel.add(view_all_schedules_panel, "name_592190169200400");
 		
-		JPanel vAS1 = new JPanel();
-		view_all_schedules_panel.add(vAS1, BorderLayout.NORTH);
+		JPanel vas_1 = new JPanel();
+		view_all_schedules_panel.add(vas_1);
 		
-		JPanel vAS2 = new JPanel();
-		view_all_schedules_panel.add(vAS2, BorderLayout.WEST);
-		vAS2.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 5));
+		JPanel vas_2 = new JPanel();
+		vas_2.setLayout(null);
+		vas_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		vas_2.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "View All Scheduled Equipment", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
-		JPanel vAS3 = new JPanel();
-		FlowLayout fl_vAS3 = (FlowLayout) vAS3.getLayout();
-		fl_vAS3.setHgap(50);
-		view_all_schedules_panel.add(vAS3, BorderLayout.EAST);
+		JButton vASBack_1 = new JButton("Back");
+		vASBack_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		vASBack_1.setBounds(10, 425, 92, 25);
+		vas_2.add(vASBack_1);
 		
-		JPanel vAS4 = new JPanel();
-		view_all_schedules_panel.add(vAS4, BorderLayout.CENTER);
+		JScrollPane scrollPane_6_1 = new JScrollPane();
+		scrollPane_6_1.setBounds(10, 57, 700, 354);
+		vas_2.add(scrollPane_6_1);
 		
-		JLabel vAS_Label_1 = new JLabel("View All Equipment");
-		vAS_Label_1.setFont(new Font("Modern No. 20", Font.BOLD, 52));
-		
-		JPanel vAS5 = new JPanel();
-		vAS5.setLayout(null);
-		vAS5.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		vAS5.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "All Currently Scheduled Equipment", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		
-		GroupLayout gl_vAS = new GroupLayout(vAS4);
-		gl_vAS4.setHorizontalGroup(
-			gl_vAS4.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_vAS4.createSequentialGroup()
-					.addGap(24)
-					.addComponent(vAS5, GroupLayout.PREFERRED_SIZE, 749, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(21, Short.MAX_VALUE))
-				.addGroup(gl_vAS4.createSequentialGroup()
-					.addContainerGap(206, Short.MAX_VALUE)
-					.addComponent(d_Label_1)
-					.addGap(188))
-		);
-		gl_vAS4.setVerticalGroup(
-			gl_vAS4.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_vAS4.createSequentialGroup()
-					.addGap(23)
-					.addComponent(vAS_Label_1)
-					.addGap(32)
-					.addComponent(vAS5, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(89, Short.MAX_VALUE))
-		);
-
-		JButton vASBack = new JButton("Back");
-		vASBack.setBounds(200, 386, 104, 25);
-		vAS5.add(vASBack);
-		vASBack.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
-
-		
-		JScrollPane vAscrollPane_6 = new JScrollPane();
-		vAscrollPane_6.setBounds(373, 57, 337, 354);
-		vAS5.add(vAscrollPane_6);
-		
-		eqScheduleTable = new JTable();
-		eqScheduleTable.setModel(new DefaultTableModel(
+		schedule_table = new JTable();
+		schedule_table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
 				"Event ID", "Equipment ID", "Quantity"
 			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		vAscrollPane_6.setViewportView(eqScheduleTable);
+		));
+		scrollPane_6_1.setViewportView(schedule_table);
 		
-
-
-		DefaultTableModel vASModel = (DefaultTableModel) eqScheduleTable.getModel();
+		DefaultTableModel model_schedule = (DefaultTableModel) schedule_table.getModel();
 		
-		
-		ResultSet allSchedules = app.callGetAllSchedules();
+		ResultSet allEquipmentSchedules = app.callViewAllSchedules();
 		
 		while (true) {
 			
 			try {
-				if (allSchedules.next()) {
-					vASModel.addRow(new Object[] {allSchedules.getString("EventID"), allSchedules.getString("EquipmentID"), allSchedules.getString("Quantity")});
+				if (allEquipmentSchedules.next()) {
+					model_schedule.addRow(new Object[] {allEquipmentSchedules.getString("EventID"), allEquipmentSchedules.getString("EquipmentID"), Integer.parseInt(allEquipmentSchedules.getString("Quantity"))});
 				} else {
 					break;
 				}
@@ -1519,7 +1781,137 @@ public class TRKGUI {
 			}
 			
 		}
-
+		
+		JLabel vs_Label_1_1 = new JLabel("View All Schedules");
+		vs_Label_1_1.setFont(new Font("Modern No. 20", Font.BOLD, 52));
+		GroupLayout gl_vas_1 = new GroupLayout(vas_1);
+		gl_vas_1.setHorizontalGroup(
+			gl_vas_1.createParallelGroup(Alignment.TRAILING)
+				.addGap(0, 796, Short.MAX_VALUE)
+				.addGroup(gl_vas_1.createSequentialGroup()
+					.addGap(24)
+					.addComponent(vas_2, GroupLayout.PREFERRED_SIZE, 749, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(23, Short.MAX_VALUE))
+				.addGroup(gl_vas_1.createSequentialGroup()
+					.addContainerGap(204, Short.MAX_VALUE)
+					.addComponent(vs_Label_1_1)
+					.addGap(188))
+		);
+		gl_vas_1.setVerticalGroup(
+			gl_vas_1.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 662, Short.MAX_VALUE)
+				.addGroup(gl_vas_1.createSequentialGroup()
+					.addGap(23)
+					.addComponent(vs_Label_1_1)
+					.addGap(32)
+					.addComponent(vas_2, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(90, Short.MAX_VALUE))
+		);
+		vas_1.setLayout(gl_vas_1);
+		
+		JPanel search_panel_1 = new JPanel();
+		panel.add(search_panel_1, "name_263510153674900");
+		search_panel_1.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_14 = new JPanel();
+		search_panel_1.add(panel_14, BorderLayout.NORTH);
+		
+		JLabel lblNewLabel_15_1 = new JLabel("View Equipment");
+		lblNewLabel_15_1.setFont(new Font("Segoe Script", Font.PLAIN, 30));
+		panel_14.add(lblNewLabel_15_1);
+		
+		JPanel panel_15 = new JPanel();
+		FlowLayout flowLayout_8 = (FlowLayout) panel_15.getLayout();
+		flowLayout_8.setHgap(50);
+		search_panel_1.add(panel_15, BorderLayout.WEST);
+		
+		JPanel panel_16 = new JPanel();
+		FlowLayout flowLayout_9 = (FlowLayout) panel_16.getLayout();
+		flowLayout_9.setHgap(50);
+		search_panel_1.add(panel_16, BorderLayout.EAST);
+		
+		JPanel panel_17 = new JPanel();
+		search_panel_1.add(panel_17, BorderLayout.CENTER);
+		
+		JPanel panel_19_1 = new JPanel();
+		
+		JLabel vs_Label_2_1_1 = new JLabel("Equipment ID:");
+		vs_Label_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		textField_14 = new JTextField();
+		textField_14.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_14.setColumns(10);
+		
+		JTextArea srtextArea_1 = new JTextArea();
+		srtextArea_1.setRows(10);
+		srtextArea_1.setEditable(false);
+		srtextArea_1.setColumns(50);
+		GroupLayout gl_panel_19_1 = new GroupLayout(panel_19_1);
+		gl_panel_19_1.setHorizontalGroup(
+			gl_panel_19_1.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 449, Short.MAX_VALUE)
+				.addGroup(gl_panel_19_1.createSequentialGroup()
+					.addGroup(gl_panel_19_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_19_1.createSequentialGroup()
+							.addGap(127)
+							.addComponent(vs_Label_2_1_1)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textField_14, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_19_1.createSequentialGroup()
+							.addGap(26)
+							.addComponent(srtextArea_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(19, Short.MAX_VALUE))
+		);
+		gl_panel_19_1.setVerticalGroup(
+			gl_panel_19_1.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 226, Short.MAX_VALUE)
+				.addGroup(gl_panel_19_1.createSequentialGroup()
+					.addGroup(gl_panel_19_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(vs_Label_2_1_1)
+						.addComponent(textField_14, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(srtextArea_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(13, Short.MAX_VALUE))
+		);
+		panel_19_1.setLayout(gl_panel_19_1);
+		
+		JButton srSearch_1 = new JButton("Search");
+		srSearch_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		JButton srBack_1 = new JButton("Back");
+		srBack_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		srBack_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		GroupLayout gl_panel_17 = new GroupLayout(panel_17);
+		gl_panel_17.setHorizontalGroup(
+			gl_panel_17.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_17.createSequentialGroup()
+					.addGroup(gl_panel_17.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_17.createSequentialGroup()
+							.addGap(23)
+							.addComponent(panel_19_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_17.createSequentialGroup()
+							.addGap(156)
+							.addComponent(srSearch_1)
+							.addGap(69)
+							.addComponent(srBack_1)))
+					.addContainerGap(24, Short.MAX_VALUE))
+		);
+		gl_panel_17.setVerticalGroup(
+			gl_panel_17.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_17.createSequentialGroup()
+					.addGap(5)
+					.addComponent(panel_19_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(26)
+					.addGroup(gl_panel_17.createParallelGroup(Alignment.BASELINE)
+						.addComponent(srBack_1)
+						.addComponent(srSearch_1))
+					.addGap(110))
+		);
+		panel_17.setLayout(gl_panel_17);
+		
 		/**
 		 * Action listener to allow user authentication for login
 		 */
@@ -1591,8 +1983,8 @@ public class TRKGUI {
 				schedule_panel.hide();
 				modify_schedule_panel.hide();
 				search_panel.hide();
-				view_schedule_panel.hide();
 				view_all_schedules_panel.hide();
+				view_schedule_panel.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
 				schedule_panel_1.hide();
@@ -1611,8 +2003,8 @@ public class TRKGUI {
 				schedule_panel.hide();
 				modify_schedule_panel.hide();
 				search_panel.hide();
-				view_schedule_panel.hide();
 				view_all_schedules_panel.hide();
+				view_schedule_panel.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
 				schedule_panel_1.hide();
@@ -1631,8 +2023,8 @@ public class TRKGUI {
 				schedule_panel.hide();
 				modify_schedule_panel.hide();
 				search_panel.hide();
-				view_schedule_panel.hide();
 				view_all_schedules_panel.hide();
+				view_schedule_panel.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
 				schedule_panel_1.hide();
@@ -1652,8 +2044,8 @@ public class TRKGUI {
 				schedule_panel.show();
 				modify_schedule_panel.hide();
 				search_panel.hide();
-				view_schedule_panel.hide();
 				view_all_schedules_panel.hide();
+				view_schedule_panel.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
 				schedule_panel_1.hide();
@@ -1672,8 +2064,8 @@ public class TRKGUI {
 				schedule_panel.hide();
 				modify_schedule_panel.show();
 				search_panel.hide();
-				view_schedule_panel.hide();
 				view_all_schedules_panel.hide();
+				view_schedule_panel.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
 				schedule_panel_1.hide();
@@ -1692,8 +2084,8 @@ public class TRKGUI {
 				schedule_panel.hide();
 				modify_schedule_panel.hide();
 				search_panel.show();
-				view_schedule_panel.hide();
 				view_all_schedules_panel.hide();
+				view_schedule_panel.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
 				schedule_panel_1.hide();
@@ -1712,28 +2104,8 @@ public class TRKGUI {
 				schedule_panel.hide();
 				modify_schedule_panel.hide();
 				search_panel.hide();
-				view_schedule_panel.show();
 				view_all_schedules_panel.hide();
-				view_schedule_panel_1.hide();
-				search_panel_1.hide();
-				schedule_panel_1.hide();
-			}
-		});
-
-		all_schedule_button.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
-			public void actionPerformed(ActionEvent arg0) {
-				OwnerMenu.hide();
-				options_panel2.hide();
-				login_panel.hide();	
-				addEqu_panel.hide();
-				modEqu_panel.hide();
-				delEqu_panel.hide();
-				schedule_panel.hide();
-				modify_schedule_panel.hide();
-				search_panel.hide();
-				view_schedule_panel.hide();
-				view_all_schedules_panel.show();
+				view_schedule_panel.show();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
 				schedule_panel_1.hide();
@@ -1753,8 +2125,8 @@ public class TRKGUI {
 				modify_schedule_panel.hide();
 				search_panel.hide();
 				search_panel.hide();
-				view_schedule_panel.hide();
 				view_all_schedules_panel.hide();
+				view_schedule_panel.hide();
 				schedule_panel_1.show();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
@@ -1773,6 +2145,7 @@ public class TRKGUI {
 				schedule_panel.hide();
 				modify_schedule_panel.hide();
 				search_panel.hide();
+				view_all_schedules_panel.hide();
 				schedule_panel_1.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.show();
@@ -1791,13 +2164,34 @@ public class TRKGUI {
 				schedule_panel.hide();
 				modify_schedule_panel.hide();
 				search_panel.hide();
-				view_schedule_panel.hide();
 				view_all_schedules_panel.hide();
+				view_schedule_panel.hide();
 				view_schedule_panel_1.show();
 				search_panel_1.hide();
 				schedule_panel_1.hide();
 			}
-		});		
+		});
+		
+		
+		all_schedule_btn.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent arg0) {
+				OwnerMenu.hide();
+				options_panel2.hide();
+				login_panel.hide();	
+				addEqu_panel.hide();
+				modEqu_panel.hide();
+				delEqu_panel.hide();
+				schedule_panel.hide();
+				modify_schedule_panel.hide();
+				search_panel.hide();
+				view_all_schedules_panel.show();
+				view_schedule_panel.hide();
+				view_schedule_panel_1.hide();
+				search_panel_1.hide();
+				schedule_panel_1.hide();
+			}
+		});
 		
 		
 		/**
@@ -1816,7 +2210,6 @@ public class TRKGUI {
 				modify_schedule_panel.hide();
 				search_panel.hide();
 				view_schedule_panel.hide();
-				view_all_schedules_panel.hide();
 				schedule_panel_1.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
@@ -1838,7 +2231,6 @@ public class TRKGUI {
 				modify_schedule_panel.hide();
 				search_panel.hide();
 				view_schedule_panel.hide();
-				view_all_schedules_panel.hide();
 				schedule_panel_1.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
@@ -1860,7 +2252,6 @@ public class TRKGUI {
 				modify_schedule_panel.hide();
 				search_panel.hide();
 				view_schedule_panel.hide();
-				view_all_schedules_panel.hide();
 				schedule_panel_1.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
@@ -1870,26 +2261,6 @@ public class TRKGUI {
 				startTimeTextField.setText("");
 				endTimeTextField.setText("");
 				quantityInputTextField.setText("");
-			}
-		});srBack_1.addActionListener(new ActionListener() {
-			@SuppressWarnings("deprecation")
-			public void actionPerformed(ActionEvent arg0) {
-				OwnerMenu.hide();
-				options_panel2.show();
-				login_panel.hide();	
-				addEqu_panel.hide();
-				modEqu_panel.hide();
-				delEqu_panel.hide();
-				schedule_panel.hide();
-				modify_schedule_panel.hide();
-				search_panel.hide();
-				view_schedule_panel.hide();
-				view_all_schedules_panel.hide();
-				schedule_panel_1.hide();
-				view_schedule_panel_1.hide();
-				search_panel_1.hide();
-				textField_14.setText("");
-				srtextArea_1.setText("");
 			}
 		});
 		
@@ -1906,7 +2277,6 @@ public class TRKGUI {
 				modify_schedule_panel.hide();
 				search_panel.hide();
 				view_schedule_panel.hide();
-				view_all_schedules_panel.hide();
 				schedule_panel_1.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
@@ -1933,7 +2303,6 @@ public class TRKGUI {
 				modify_schedule_panel.hide();
 				search_panel.hide();
 				view_schedule_panel.hide();
-				view_all_schedules_panel.hide();
 				schedule_panel_1.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
@@ -1955,7 +2324,6 @@ public class TRKGUI {
 				modify_schedule_panel.hide();
 				search_panel.hide();
 				view_schedule_panel.hide();
-				view_all_schedules_panel.hide();
 				schedule_panel_1.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
@@ -1977,7 +2345,6 @@ public class TRKGUI {
 				modify_schedule_panel.hide();
 				search_panel.hide();
 				view_schedule_panel.hide();
-				view_all_schedules_panel.hide();
 				schedule_panel_1.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
@@ -1999,7 +2366,6 @@ public class TRKGUI {
 				modify_schedule_panel.hide();
 				search_panel.hide();
 				view_schedule_panel.hide();
-				view_all_schedules_panel.hide();
 				schedule_panel_1.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
@@ -2008,8 +2374,33 @@ public class TRKGUI {
 			}
 		});
 		
-
-		vASBack.addActionListener(new ActionListener() {
+		sBack_1.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent arg0) {
+				OwnerMenu.hide();
+				options_panel2.show();
+				login_panel.hide();	
+				addEqu_panel.hide();
+				modEqu_panel.hide();
+				delEqu_panel.hide();
+				schedule_panel.hide();
+				modify_schedule_panel.hide();
+				search_panel.hide();
+				view_schedule_panel.hide();
+				schedule_panel_1.hide();
+				view_schedule_panel_1.hide();
+				search_panel_1.hide();
+				textField_id_3.setText("");
+				textField_6.setText("");
+				textField_7.setText("");
+				textField_9.setText("");
+				textField_10.setText("");
+				textField_11.setText("");
+				textField_12.setText("");
+			}
+		});
+		
+		vASBack_1.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				OwnerMenu.show();
@@ -2021,16 +2412,13 @@ public class TRKGUI {
 				schedule_panel.hide();
 				modify_schedule_panel.hide();
 				search_panel.hide();
-				view_schedule_panel.hide();
 				view_all_schedules_panel.hide();
-				schedule_panel_1.hide();
+				view_schedule_panel.hide();
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
-				textField_14.setText("");
-				srtextArea_1.setText("");
+				schedule_panel_1.hide();
 			}
 		});
-		
 		
 		/**
 		 * Action listeners for the save/schedule buttons on each option panel
