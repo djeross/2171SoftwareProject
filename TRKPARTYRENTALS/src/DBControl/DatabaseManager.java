@@ -185,6 +185,27 @@ public class DatabaseManager{
 		}
 	}
 	
+	public void modifyEquipment(Resource resource) {
+		try {
+			TrkDatabaseConnect trkconn=this.getTrkconnect();
+			String equipID = resource.getID();
+			String equipName = resource.getEname();
+			int t_qty = resource.getT_Qty();
+			int r_qty = resource.getR_Qty();
+			
+			resource = new Resource(equipID, equipName, t_qty, r_qty);
+			
+			String query = "UPDATE resource SET Total_Quantity ='" + t_qty + ", Rem_Quantity ='" + r_qty + "' WHERE EquipmentID='" + equipID + "'";
+
+			PreparedStatement statement =trkconn.getDbconn().prepareStatement(query);
+			
+			statement.executeUpdate();
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	
 	public ResultSet getAllEquipment(){
 		try {
 			TrkDatabaseConnect trkconn=this.getTrkconnect();
