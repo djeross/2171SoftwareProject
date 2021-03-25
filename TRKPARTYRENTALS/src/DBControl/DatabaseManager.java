@@ -205,22 +205,49 @@ public class DatabaseManager{
 		}
 	}
 
-	public ResultSet getAllSchedules(){
+	
+	public ArrayList<Object[]> getAllSchedules(String equipid){
+		ArrayList<Object[]>list=new ArrayList<Object[]>();
+		String query="SELECT * FROM schedule WHERE EventID in (SELECT DISTINCT EventID FROM contains WHERE EquipmentID='"+equipid+"')";
+		ResultSet result;
 		try {
-			TrkDatabaseConnect trkconn=this.getTrkconnect();
-			
-			String query = ("SELECT * FROM contains;");
-			
-			PreparedStatement statement =trkconn.getDbconn().prepareStatement(query);
-			
-			ResultSet rs = statement.executeQuery(query);
-			
-			return rs;
-			
-		}catch(Exception ex){
-			ex.printStackTrace();
-			return null;
+			result = getTrkconnect().getStmt().executeQuery(query);
+			String eventid,location,date,start_time,end_time;
+			eventid=location=date=start_time=end_time="";
+			while(result.next()) {
+				eventid = result.getString("EventID");
+				location = result.getString("Location");
+				date = result.getString("Date");
+				start_time = result.getString("Start_Time");
+				end_time = result.getString("End_Time");
+				list.add(new Object[]{eventid, location, date, start_time, end_time});
+			}
+			return list;
 		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			return list;
+		}
+	}
+	
+	public ArrayList<String> getContainsIDs(){
+		ArrayList<String>list=new ArrayList<String>();
+		String query="SELECT DISTINCT EquipmentID FROM contains ";
+		ResultSet result;
+		try {
+			result = getTrkconnect().getStmt().executeQuery(query);
+			String equipid="";
+			while(result.next()){
+				equipid = result.getString("EquipmentID");
+				list.add(equipid);
+			}
+			return list;
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			return list;
+		}
+		
 	}
 
 	

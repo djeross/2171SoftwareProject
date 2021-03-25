@@ -51,6 +51,7 @@ import javax.swing.JList;
 import javax.swing.JSeparator;
 import javax.swing.JScrollBar;
 import javax.swing.JRadioButton;
+import javax.swing.ListModel;
 public class TRKGUI {
 
 	private JFrame frmResourceSchedulingApp;
@@ -1746,11 +1747,16 @@ public class TRKGUI {
 		
 		JButton vASBack_1 = new JButton("Back");
 		vASBack_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		vASBack_1.setBounds(10, 425, 92, 25);
+		vASBack_1.setBounds(29, 386, 92, 25);
 		vas_2.add(vASBack_1);
 		
+		JLabel schedule_searchLabel_1 = new JLabel("Scheduled Equipment List");
+		schedule_searchLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		schedule_searchLabel_1.setBounds(29, 45, 186, 14);
+		vas_2.add(schedule_searchLabel_1);
+		
 		JScrollPane scrollPane_6_1 = new JScrollPane();
-		scrollPane_6_1.setBounds(10, 57, 700, 354);
+		scrollPane_6_1.setBounds(373, 57, 337, 354);
 		vas_2.add(scrollPane_6_1);
 		
 		schedule_table = new JTable();
@@ -1758,29 +1764,18 @@ public class TRKGUI {
 			new Object[][] {
 			},
 			new String[] {
-				"Event ID", "Equipment ID", "Quantity"
+				"Event ID", "Location", "Date", "Start Time",  "End Time"
 			}
 		));
 		scrollPane_6_1.setViewportView(schedule_table);
 		
+		JButton vaSearchByEquipmentIDBtn_1 = new JButton("Search");
+		vaSearchByEquipmentIDBtn_1.setBounds(29, 177, 136, 32);
+		vas_2.add(vaSearchByEquipmentIDBtn_1);
+		
+		
 		DefaultTableModel model_schedule = (DefaultTableModel) schedule_table.getModel();
 		
-		ResultSet allEquipmentSchedules = app.callViewAllSchedules();
-		
-		while (true) {
-			
-			try {
-				if (allEquipmentSchedules.next()) {
-					model_schedule.addRow(new Object[] {allEquipmentSchedules.getString("EventID"), allEquipmentSchedules.getString("EquipmentID"), Integer.parseInt(allEquipmentSchedules.getString("Quantity"))});
-				} else {
-					break;
-				}
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
-		}
 		
 		JLabel vs_Label_1_1 = new JLabel("View All Schedules");
 		vs_Label_1_1.setFont(new Font("Modern No. 20", Font.BOLD, 52));
@@ -1807,6 +1802,16 @@ public class TRKGUI {
 					.addComponent(vas_2, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(90, Short.MAX_VALUE))
 		);
+		
+		JScrollPane eq_scrollPane = new JScrollPane();
+		eq_scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		eq_scrollPane.setBounds(24, 69, 163, 98);
+		vas_2.add(eq_scrollPane);
+		
+		JList eq_list = new JList(listModel);
+		eq_list.setVisibleRowCount(1);
+		eq_list.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		eq_scrollPane.setViewportView(eq_list);
 		vas_1.setLayout(gl_vas_1);
 		
 		JPanel search_panel_1 = new JPanel();
@@ -2176,6 +2181,7 @@ public class TRKGUI {
 		all_schedule_btn.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
+				reloadContainsIdList();
 				OwnerMenu.hide();
 				options_panel2.hide();
 				login_panel.hide();	
@@ -2417,6 +2423,10 @@ public class TRKGUI {
 				view_schedule_panel_1.hide();
 				search_panel_1.hide();
 				schedule_panel_1.hide();
+				while(model_schedule.getRowCount() > 0)
+				{
+					model_schedule.setRowCount(0);
+				}
 			}
 		});
 		
@@ -2505,7 +2515,28 @@ public class TRKGUI {
 			}
 		});
 		                                           	
-		
+		vaSearchByEquipmentIDBtn_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String eqID = eq_list.getSelectedValue().toString();
+				if((eqID.isBlank())==false){
+					try {
+						while(model_schedule.getRowCount() > 0)
+						{
+							model_schedule.setRowCount(0);
+						}
+						ArrayList<Object[]> allEquipmentSchedules = app.callViewAllSchedules(eqID);
+						for(int x = 0; x < allEquipmentSchedules.size(); x++) {
+							model_schedule.addRow(allEquipmentSchedules.get(x));
+						}
+					} catch (Exception e1) {
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"Equipment Id cannot be empty.","System Warning",JOptionPane.WARNING_MESSAGE);
+				}
+					
+			}
+		});
 		
 		/***************************************************************
 		
@@ -2578,6 +2609,15 @@ public class TRKGUI {
 		listModel.clear();
 		ArrayList<String>list=null;
 		list=app.loadIDs();
+		for(String id:list){
+			listModel.addElement(id);
+		}
+	}
+	
+	public void reloadContainsIdList(){
+		listModel.clear();
+		ArrayList<String>list=null;
+		list=app.loadContainsIDs();
 		for(String id:list){
 			listModel.addElement(id);
 		}

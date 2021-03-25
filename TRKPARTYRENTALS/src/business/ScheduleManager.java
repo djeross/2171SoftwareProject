@@ -39,9 +39,12 @@ public class ScheduleManager {
 		return response;
 	}
 	
-	public ResultSet viewAllSchedules(){
-		return dbmanager.getAllSchedules();
+	public ArrayList<Object[]> viewAllSchedules(String equip_id){
+		return dbmanager.getAllSchedules(equip_id);
 	}
 
+	public ArrayList<String> getContainsIdList() {
+		return dbmanager.getContainsIDs();
+	}
 
 }
