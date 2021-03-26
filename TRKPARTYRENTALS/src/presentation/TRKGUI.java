@@ -1239,6 +1239,42 @@ public class TRKGUI {
 		s4.add(viewSchInvButton);
 		viewSchInvButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
+		/*
+		 * 
+		 * view inventory on click
+		 */
+		viewSchInvButton.addActionListener(new ActionListener() {
+		 @Override
+		    public void actionPerformed(ActionEvent e) {
+		    	
+		    	String sResult = "";
+		    	
+				ResultSet equipment = app.callGetAllEquipment();
+					
+				while (true) {
+					
+					try {
+						if (equipment.next()) {
+							sResult += equipment.getString("EquipmentName") + ":  " + equipment.getString("Remaining_Quantity") +"/"+ equipment.getString("Total_Quantity") + "\n" ;
+						} else {
+							break;
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
+				if(sResult.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "No current inventory!");
+				}
+				else {
+					JOptionPane.showMessageDialog(null, sResult);
+				}
+					
+		    }
+		});
+		
 		JDateChooser scheduledateChooser = new JDateChooser();
 		scheduledateChooser.setBounds(791, 24, 112, 31);
 		scheduledateChooser.setDateFormatString("yyyy-MM-dd");
@@ -1431,6 +1467,9 @@ public class TRKGUI {
 		
 		JButton srSearch = new JButton("Search");
 		srSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		
+
 				
 		JButton srBack = new JButton("Back");
 		srBack.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -1501,7 +1540,51 @@ public class TRKGUI {
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE))
 		);
 		sr4_1.setLayout(gl_sr4_1);
-		sr4.setLayout(gl_sr4);
+		sr4.setLayout(gl_sr4);	
+		
+		
+		/**
+		 * search equipment event
+		 */
+		
+		srSearch.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		    	
+		    	String equipId = textField_8.getText();
+		    	String sResult = "";
+		    	
+		    	if (equipId.isEmpty())
+		    	{
+		    		JOptionPane.showMessageDialog(null, "ID field cannot be left blank");
+		    	}
+		    	else {
+					ResultSet equipment = app.callGetEquipmentByID(equipId);
+					
+					while (true) {
+						
+						try {
+							if (equipment.next()) {
+								sResult = equipment.getString("EquipmentName") + "  " + equipment.getString("Remaining_Quantity") +"/"+ equipment.getString("Total_Quantity") + "\n" ;
+							} else {
+								break;
+							}
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+					}
+					if(sResult.isEmpty()) {
+						JOptionPane.showMessageDialog(null, "No equipment with ID: " + equipId);
+					}
+					else {
+						textArea_2.setText(sResult);
+					}
+					
+		    	}
+		    }
+		});
 		
 		/**
 		 * View Schedule Panel
@@ -1985,6 +2068,8 @@ public class TRKGUI {
 		/**
 		 * Action listener for the owner view
 		 */
+		
+		
 		addEqu_button.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
@@ -2064,6 +2149,44 @@ public class TRKGUI {
 				schedule_panel_1.hide();
 			}
 		});
+		
+		/*
+		 * 
+		 * view inventory event
+		 */
+		
+		 view_inv_button.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		    	
+		    	String sResult = "";
+		    	
+				ResultSet equipment = app.callGetAllEquipment();
+					
+				while (true) {
+					
+					try {
+						if (equipment.next()) {
+							sResult += equipment.getString("EquipmentName") + ":  " + equipment.getString("Remaining_Quantity") +"/"+ equipment.getString("Total_Quantity") + "\n" ;
+						} else {
+							break;
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
+				if(sResult.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "No current inventory!");
+				}
+				else {
+					JOptionPane.showMessageDialog(null, sResult);
+				}
+					
+		    }
+		});
+		
 		
 		schedule_button.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
