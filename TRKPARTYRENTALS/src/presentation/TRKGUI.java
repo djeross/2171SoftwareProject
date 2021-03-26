@@ -852,7 +852,7 @@ public class TRKGUI {
 		d5.add(searchByIDBtn);
 		
 
-		DefaultTableModel model = (DefaultTableModel) dInventoryTable.getModel();
+		DefaultTableModel dmodel = (DefaultTableModel) dInventoryTable.getModel();
 		
 		
 		ResultSet allEquipment = app.callGetAllEquipment();
@@ -861,7 +861,7 @@ public class TRKGUI {
 			
 			try {
 				if (allEquipment.next()) {
-					model.addRow(new Object[] {allEquipment.getString("EquipmentID"), allEquipment.getString("EquipmentName")});
+					dmodel.addRow(new Object[] {allEquipment.getString("EquipmentID"), allEquipment.getString("EquipmentName")});
 				} else {
 					break;
 				}
@@ -955,9 +955,11 @@ public class TRKGUI {
 				
 				if (dInventoryTable.getSelectedRows().length == 0) {
 					
-					JOptionPane.showMessageDialog(null, "Please enter an equipment record from the table.", "System Warning",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Please select an equipment record from the table.", "System Warning",JOptionPane.WARNING_MESSAGE);
 					
 				} else {
+					
+					search.setText("");
 					
 					int column = 0;
 					int row = dInventoryTable.getSelectedRow();
@@ -971,6 +973,8 @@ public class TRKGUI {
 					    model.removeRow(dInventoryTable.getSelectedRow());
 					}
 					
+					JOptionPane.showMessageDialog(null,"Equipment was successfully deleted.","System Message",JOptionPane.INFORMATION_MESSAGE);
+					
 					app.callDeleteEquipment(value);
 					
 				}
@@ -978,32 +982,6 @@ public class TRKGUI {
 			}
 		});
 		
-		aSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				while (model.getRowCount() > 0) {
-		             model.removeRow(0);
-		         }
-				
-				ResultSet allEquipment = app.callGetAllEquipment();
-				
-				while (true) {
-					
-					try {
-						if (allEquipment.next()) {
-							model.addRow(new Object[] {allEquipment.getString("EquipmentID"), allEquipment.getString("EquipmentName")});
-						} else {
-							break;
-						}
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-				}
-						
-			}
-		});
 		
 		/*dBack.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
@@ -2049,6 +2027,28 @@ public class TRKGUI {
 		delEqu_button.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
+				
+				while (dmodel.getRowCount() > 0) {
+		             dmodel.removeRow(0);
+		         }
+				
+				ResultSet allEquipment = app.callGetAllEquipment();
+				
+				while (true) {
+					
+					try {
+						if (allEquipment.next()) {
+							dmodel.addRow(new Object[] {allEquipment.getString("EquipmentID"), allEquipment.getString("EquipmentName")});
+						} else {
+							break;
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
+				
 				OwnerMenu.hide();
 				options_panel2.hide();
 				login_panel.hide();	
